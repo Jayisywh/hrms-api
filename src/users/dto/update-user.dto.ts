@@ -5,7 +5,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { Role } from './create-user.dto';
+import { Role } from 'src/generated/prisma/enums';
 
 export class UpdateUserDto {
   @IsEmail({}, { message: 'Invalid email format' })
@@ -13,6 +13,7 @@ export class UpdateUserDto {
   email?: string;
 
   @IsString()
+  @IsOptional()
   @MinLength(6, { message: 'Password must be at least 6 characters' })
   password?: string;
 

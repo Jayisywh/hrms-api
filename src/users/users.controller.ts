@@ -21,6 +21,7 @@ import { Role } from 'src/generated/prisma/enums';
 interface UserRequest {
   user: {
     id: string;
+    role: Role;
   };
 }
 
@@ -60,8 +61,12 @@ export class UsersController {
 
   @Patch(':id')
   @Roles(Role.ADMIN, Role.HR)
-  updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.updateUser(id, updateUserDto);
+  updateUser(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req: UserRequest,
+  ) {
+    return this.usersService.updateUser(req.user, id, updateUserDto);
   }
 
   @Delete(':id')
