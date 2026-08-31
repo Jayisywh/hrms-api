@@ -5,7 +5,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { Role } from 'src/generated/prisma/enums';
+import { Role } from '../../generated/prisma/enums';
 
 export class UpdateUserDto {
   @IsEmail({}, { message: 'Invalid email format' })
