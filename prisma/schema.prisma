@@ -108,6 +108,7 @@ model Employee {
 
   attendances Attendance[]
   payrolls    Payroll[]
+  leaveRequests LeaveRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -230,5 +231,35 @@ model Application {
 
   @@unique([candidateId, jobPostingId])
   @@index([jobPostingId])
+  @@index([status])
+}
+
+enum LeaveType {
+  ANNUAL
+  SICK
+  UNPAID
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model LeaveRequest {
+  id String @id @default(uuid())
+
+  employeeId String
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+
+  leaveType LeaveType
+  startDate DateTime @db.Date
+  endDate DateTime @db.Date
+  reason String?
+  status LeaveStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([employeeId])
   @@index([status])
 }
